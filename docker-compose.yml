@@ -1,0 +1,16 @@
+version: "3.5"
+
+# common build setup for 'server'
+x-common-build: &common-build
+  build:
+    context: .
+    dockerfile: dev.Dockerfile
+  volumes: # needed for CompileDaemon to detect file changes
+    - ./:/app
+
+services:
+  server:
+    <<: *common-build
+    container_name: scrapper_server
+    command: ["--command=./go-scrapper -url 'http://www.google.com'"]
+
